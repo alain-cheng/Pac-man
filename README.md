@@ -7,13 +7,14 @@
   5. Project Instructions https://inst.eecs.berkeley.edu/~cs188/sp19/project1.html#Introduction
 ### Tldr mco2 instructions
   only edit search.py and searchAgents.py\
+  From search.py, fill up functions of DFS, BFS, UCS, and A* search algorithms\
+  From searchAgents.py, fill up missing code starting from line #266 and below
 \
   run on git bash terminal to auto check
   > $ python autograder.py
  
 ### Extra stuff
-  
-
+ 
   play Pac-man using the terminal with
   > $ python pacman.py 
 
