@@ -8,6 +8,6 @@
 ### Tldr mco2 instructions
   only edit search.py and searchAgents.py\
 \
-  run on git bash terminal
+  run on git bash terminal to auto check
   > $ python autograder.py
   
