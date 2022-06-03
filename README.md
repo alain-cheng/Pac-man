@@ -10,4 +10,8 @@
 \
   run on git bash terminal to auto check
   > $ python autograder.py
-  
+ 
+### Extra stuff
+
+  play Pac-man using the terminal with
+  > $ python pacman.py
