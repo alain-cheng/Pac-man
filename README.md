@@ -15,3 +15,5 @@
 
   play Pac-man using the terminal with
   > $ python pacman.py
+\
+  read the part (i) from pacman.py file
