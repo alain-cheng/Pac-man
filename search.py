@@ -89,31 +89,61 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     fringe = util.Stack()
-    visited = []
+    visited = set()
     path = []
     node = problem.getStartState()
+    fringe.push((node, path))
     if problem.isGoalState(node):
         return []
-    fringe.push(node, [])
+    
 
-    while not fringe.isEmpty():
-        path, node = fringe.pop()
+    while True:
+        if fringe.isEmpty():
+            return []
+        
+        node, path = fringe.pop()
+        visited.add(node)
+
         if problem.isGoalState(node):
             return path
-        visited.append(node)
-        if problem.isGoalState(node):
-            return path
-        childNodes = problem.getSuccessors(node)
-        for child in childNodes:
+
+        children = problem.getSuccessors(node)
+
+        for child in children:
             if child[0] not in visited:
-                newPath = list(path)
-                newPath.append(child[1])
-                fringe.push(child[0], newPath)
+                child_path = list(path)
+                child_path.append(child[1])
+                fringe.push((child[0], child_path))
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.Queue()
+    visited = set()
+    path = []
+    node = problem.getStartState()
+    fringe.push((node, path))
+    if problem.isGoalState(node):
+        return []
+    
+
+    while True:
+        if fringe.isEmpty():
+            return []
+        
+        node, path = fringe.pop()
+        visited.add(node)
+
+        if problem.isGoalState(node):
+            return path
+
+        children = problem.getSuccessors(node)
+
+        for child in children:
+            if child[0] not in visited:
+                child_path = list(path)
+                child_path.append(child[1])
+                fringe.push((child[0], child_path))
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
