@@ -146,7 +146,7 @@ def breadthFirstSearch(problem):
                 fringe.push((child[0], child_path))
 
 def uniformCostSearch(problem):
-   """Search the node of least total cost first."""
+    """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     fringe = util.PriorityQueue()               # ucs uses a PriorityQueue
     visited = set()                             # Create a set for visited nodes
