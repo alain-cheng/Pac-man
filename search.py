@@ -146,9 +146,38 @@ def breadthFirstSearch(problem):
                 fringe.push((child[0], child_path))
 
 def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
+   """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.PriorityQueue()               # ucs uses a PriorityQueue
+    visited = set()                             # Create a set for visited nodes
+    path = []                                   # Used to return the list of moves
+    node = problem.getStartState()              # Get the Start node
+    totalcost = problem.getCostOfActions(path)  # Cost of paths
+    fringe.push((node, path), totalcost)        # Push start node to fringe
+    
+    if problem.isGoalState(node):               # If Start is the Goal node, then return empty path
+        return []
+    
+    # Select cheapest paths
+    while True:
+        if fringe.isEmpty():
+            return []
+        
+        node, path = fringe.pop()               # Returns 2 items
+        visited.add(node)                       # Add node to visited set
+
+        if problem.isGoalState(node):           # If popped node is the Goal
+            return path
+
+        children = problem.getSuccessors(node)  # Get children of node
+        
+        for child in children:
+            if child[0] not in visited:         # Make sure child has not been visited
+                child_path = list(path)         # Store all previous paths before reaching the child path
+                child_path.append(child[1])     # Append the directions of the child path
+                totalcost = problem.getCostOfActions(child_path) # Get total cost of child
+                fringe.push((child[0], child_path), totalcost)
+                # debugging
 
 def nullHeuristic(state, problem=None):
     """
