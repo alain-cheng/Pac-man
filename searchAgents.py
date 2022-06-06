@@ -288,6 +288,9 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.cornersVisited = set()     # Will store visited corners as a set
+        self.cornersReached = 0         # Will be incremented everytime a new corner is reached
+        
 
     def getStartState(self):
         """
@@ -295,14 +298,29 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.startingPosition
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # A Goal state returns true if all corners have been reached
+        # True if cornersReached == 4
+        # Do not increment cornersReached when corner is in visitedCorners
+
+        # When isGoalState is called, checks if state is in one of the corners.
+        # When a corner has not been visited yet, add it to cornersVisited set-
+        # and increment the number of cornersReached.
+        if state in self.corners:
+            if state not in self.cornersVisited:
+                self.cornersReached += 1
+                self.cornersVisited.add(state)
+        
+        # A Goal state returns true when cornersReached is equal to 4
+        if self.cornersReached == 4:
+            return True
+        return False
 
     def getSuccessors(self, state):
         """
@@ -325,6 +343,15 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x, y = state                                    # get the current x-y position
+            dx, dy = Actions.directionToVector(action)      # direction of next move
+            nextx, nexty = int(x + dx), int(y + dy)         # position of next move
+            hitsWall = self.walls[nextx][nexty]             
+            if not hitsWall:                                # if next move won't hit a wall
+                nextState = (nextx, nexty)                  # get next state
+                cost = self._expanded + 1                   # get the cost of the move
+                successors.append((nextState, action, cost))# append the successor
+
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -341,6 +368,13 @@ class CornersProblem(search.SearchProblem):
             x, y = int(x + dx), int(y + dy)
             if self.walls[x][y]: return 999999
         return len(actions)
+
+    ### Added ###
+    def getCornersReached(self): 
+        """
+        Returns the number of cornersReached
+        """
+        return self.cornersReached
 
 
 def cornersHeuristic(state, problem):
