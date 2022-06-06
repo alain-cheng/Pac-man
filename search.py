@@ -126,24 +126,53 @@ def breadthFirstSearch(problem):
     if problem.isGoalState(node):
         return []
     
+    from searchAgents import CornersProblem
+    if type(problem) is CornersProblem:                         # For implementing Question 5: CornersProblem
+        cornersReached = problem.getCornersReached()
+        while True:
+            if fringe.isEmpty():
+                return []
+            
+            if cornersReached != problem.getCornersReached():   # number of cornersReached has changed in the problem
+                print("Corner has been reached!")
+                visited.clear()                                 # Clear all visited nodes
+                cornersReached = problem.getCornersReached()    # match the number of cornersReached in the problem
+                node, path = fringe.pop()
+                while not fringe.isEmpty():                     # Pop fringe until empty
+                    fringe.pop()
+                fringe.push((node, path))                   
+            
+            node, path = fringe.pop()
+            visited.add(node)
 
-    while True:
-        if fringe.isEmpty():
-            return []
-        
-        node, path = fringe.pop()
-        visited.add(node)
+            if problem.isGoalState(node):
+                return path
 
-        if problem.isGoalState(node):
-            return path
+            children = problem.getSuccessors(node)
 
-        children = problem.getSuccessors(node)
+            for child in children:
+                if child[0] not in visited:
+                    child_path = list(path)
+                    child_path.append(child[1])
+                    fringe.push((child[0], child_path))
+    else:
+        while True:
+            if fringe.isEmpty():
+                return []
+            
+            node, path = fringe.pop()
+            visited.add(node)
 
-        for child in children:
-            if child[0] not in visited:
-                child_path = list(path)
-                child_path.append(child[1])
-                fringe.push((child[0], child_path))
+            if problem.isGoalState(node):
+                return path
+
+            children = problem.getSuccessors(node)
+
+            for child in children:
+                if child[0] not in visited:
+                    child_path = list(path)
+                    child_path.append(child[1])
+                    fringe.push((child[0], child_path))
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
