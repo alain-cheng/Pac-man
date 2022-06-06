@@ -126,6 +126,7 @@ def breadthFirstSearch(problem):
     if problem.isGoalState(node):
         return []
     
+    from searchAgents import CornersProblem
     if type(problem) is CornersProblem:                         # For implementing Question 5: CornersProblem
         cornersReached = problem.getCornersReached()
         while True:
@@ -133,8 +134,13 @@ def breadthFirstSearch(problem):
                 return []
             
             if cornersReached != problem.getCornersReached():   # number of cornersReached has changed in the problem
+                print("Corner has been reached!")
                 visited.clear()                                 # Clear all visited nodes
-                cornersReached = problem.getCornersReached()    # match the number of cornersReached in the problem                         
+                cornersReached = problem.getCornersReached()    # match the number of cornersReached in the problem
+                node, path = fringe.pop()
+                while not fringe.isEmpty():                     # Pop fringe until empty
+                    fringe.pop()
+                fringe.push((node, path))                   
             
             node, path = fringe.pop()
             visited.add(node)
