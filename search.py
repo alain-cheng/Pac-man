@@ -131,16 +131,7 @@ def breadthFirstSearch(problem):
         cornersReached = problem.getCornersReached()
         while True:
             if fringe.isEmpty():
-                return []
-            
-            if cornersReached != problem.getCornersReached():   # number of cornersReached has changed in the problem
-                print("Corner has been reached!")
-                visited.clear()                                 # Clear all visited nodes
-                cornersReached = problem.getCornersReached()    # match the number of cornersReached in the problem
-                node, path = fringe.pop()
-                while not fringe.isEmpty():                     # Pop fringe until empty
-                    fringe.pop()
-                fringe.push((node, path))                   
+                return []                  
             
             node, path = fringe.pop()
             visited.add(node)
@@ -155,6 +146,15 @@ def breadthFirstSearch(problem):
                     child_path = list(path)
                     child_path.append(child[1])
                     fringe.push((child[0], child_path))
+            
+            if cornersReached != problem.getCornersReached():   # number of cornersReached has changed in the problem
+                print("Corner has been reached!")
+                visited.clear()                                 # Clear all visited nodes
+                cornersReached = problem.getCornersReached()    # match the number of cornersReached in the problem
+                node, path = fringe.pop()
+                while not fringe.isEmpty():                     # Pop fringe until empty
+                    fringe.pop()
+                fringe.push((node, path)) 
     else:
         while True:
             if fringe.isEmpty():
