@@ -488,7 +488,21 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    """
+    TODO find nearest pellet of among the directions pacman can move around
+                    should it iterate through all active pellets?
+                    
+    """
+    def getTaxiD(pos1, pos2):
+        x1,y1 = pos1
+        x2,y2 = pos2
+        distance = abs(x1 - x2) + abs(y1-y2)
+        return distance
+
+    foodList = foodGrid.asList()
+    foodList.sort()
+   
+    return  getTaxiD(position,foodList[0])
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
