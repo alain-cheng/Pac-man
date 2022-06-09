@@ -531,10 +531,10 @@ def foodHeuristic(state, problem):
         estimatedPaths.append((minSide + base[2]))
     def getScore():
         "TODO base score on k, k is acceptable max distance from a wall."
-        return min(estimatedPaths)
+    return min(estimatedPaths)
 
 
-
+"""
     for food_coordinate in listgrid:
 
         if (position, food_coordinate) in problem.heuristicInfo:
@@ -548,18 +548,8 @@ def foodHeuristic(state, problem):
         return 0
     else:
         dist = max(distances)
-    return dist
+    return dist"""
 
-<<<<<<< HEAD
-    """
-    foodList = []
-    foodList= foodGrid.asList()
-    dotScores = []
-    dotScores.append   
-    """
-    return taxi(position,(0,0))* getScore()
-=======
->>>>>>> 2e3a69b0f1d097110c25cdc6c2060d7a2e46e8e1
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
