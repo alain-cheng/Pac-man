@@ -157,20 +157,24 @@ def uniformCostSearch(problem):
     "*** YOUR CODE HERE ***"
     fringe = util.PriorityQueue()               # ucs uses a PriorityQueue
     visited = set()                             # Create a set for visited nodes
-    path = []                                   # Used to return the list of moves
+    path = list()                               # Used to return the list of moves
     node = problem.getStartState()              # Get the Start node
     totalcost = problem.getCostOfActions(path)  # Cost of paths
     fringe.push((node, path), totalcost)        # Push start node to fringe
     
     if problem.isGoalState(node):               # If Start is the Goal node, then return empty path
-        return []
+        return list()
     
     # Select cheapest paths
-    while True:
+    while not fringe.isEmpty():
         if fringe.isEmpty():
-            return []
+            return list()
         
         node, path = fringe.pop()               # Returns 2 items
+
+        if node in visited:
+            continue
+
         visited.add(node)                       # Add node to visited set
 
         if problem.isGoalState(node):           # If popped node is the Goal
@@ -184,7 +188,7 @@ def uniformCostSearch(problem):
                 child_path.append(child[1])     # Append the directions of the child path
                 totalcost = problem.getCostOfActions(child_path) # Get total cost of child
                 fringe.push((child[0], child_path), totalcost)
-                # debugging
+    return list()
 
 def nullHeuristic(state, problem=None):
     """
