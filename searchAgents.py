@@ -492,16 +492,13 @@ def foodHeuristic(state, problem):
                     
     """
     def getScore(problem):
-        return 0
-    """
+        return problem.pellets.count()
+
     def getDistance(p1,p2):
       
         xy1 = p1
         xy2 = p2
         return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-
-"""
-
 
 
 
@@ -511,7 +508,7 @@ def foodHeuristic(state, problem):
     dotScores = []
     dotScores.append   
     """
-    return euclideanHeuristic(position,problem) * getScore()
+    return getDistance(position,(0,0))* getScore()
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
