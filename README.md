@@ -11,11 +11,3 @@
   3. From searchAgents.py, fill up missing code starting from line #266 and below
   4. run on git bash terminal to auto check
   > $ python autograder.py
- 
-### Extra stuff
- 
-  play Pac-man using the terminal with
-  > $ python pacman.py 
-
-  read the part (i) from pacman.py file
-
