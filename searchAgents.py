@@ -34,7 +34,6 @@ description for details.
 Good luck and happy searching!
 """
 
-from turtle import distance
 from game import Directions
 from game import Agent
 from game import Actions
@@ -405,14 +404,12 @@ def cornersHeuristic(state, problem):
     location = state
     currLocation = location
     cost = 0
-    
     while remainingCorners:
         #manhattandistance(currLocation, corner) // (x1,y1) (x2,y2) && |x1-x2| + |y1-y2|
         heuristic, corner = min([(abs(currLocation[0] - corner[1]) + abs(currLocation[1] - corner[0]), corner) for corner in remainingCorners])
         remainingCorners.remove(corner)
         currLocation = corner
         cost += heuristic
-
     return cost
 
 class AStarCornersAgent(SearchAgent):
@@ -508,10 +505,6 @@ def foodHeuristic(state, problem):
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
     """
-    TODO find nearest pellet of among the directions pacman can move around
-                    should it iterate through all active pellets?
-                    
-    """
     taxi = util.manhattanDistance
     foodList = foodGrid.asList()
     distanceLists = []
@@ -532,9 +525,10 @@ def foodHeuristic(state, problem):
     def getScore():
         "TODO base score on k, k is acceptable max distance from a wall."
     return min(estimatedPaths)
+    """
+    distances = []
+    listgrid = foodGrid.asList()
 
-
-"""
     for food_coordinate in listgrid:
 
         if (position, food_coordinate) in problem.heuristicInfo:
@@ -548,7 +542,7 @@ def foodHeuristic(state, problem):
         return 0
     else:
         dist = max(distances)
-    return dist"""
+    return dist
 
 
 class ClosestDotSearchAgent(SearchAgent):
