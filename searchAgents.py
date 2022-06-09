@@ -491,15 +491,14 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
-<<<<<<< HEAD
+
     def hotdog(foodPos):
         "because manhattan food"
         xy1 = position
         xy2 = foodPos
         return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
-=======
->>>>>>> b3e2686fa1b4f8372ee0ded44d3774eb8a1458df
+
     """
     foodList = []
     foodList= foodGrid.asList()
