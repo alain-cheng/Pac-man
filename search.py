@@ -217,8 +217,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         for child, move, stepCost in children:
             if child not in visited:
                 nHeuristic = stepCost + problem.getCostOfActions(path) + heuristic(child, problem = problem)
-                fringe.push(
-                    (child, path + [move]), nHeuristic)
+                fringe.push((child, path + [move]), nHeuristic)
 
 
 # Abbreviations
