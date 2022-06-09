@@ -405,12 +405,14 @@ def cornersHeuristic(state, problem):
     location = state
     currLocation = location
     cost = 0
+    
     while remainingCorners:
         #manhattandistance(currLocation, corner) // (x1,y1) (x2,y2) && |x1-x2| + |y1-y2|
         heuristic, corner = min([(abs(currLocation[0] - corner[1]) + abs(currLocation[1] - corner[0]), corner) for corner in remainingCorners])
         remainingCorners.remove(corner)
         currLocation = corner
         cost += heuristic
+
     return cost
 
 class AStarCornersAgent(SearchAgent):
