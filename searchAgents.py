@@ -517,10 +517,8 @@ def foodHeuristic(state, problem):
         ds= []
         for f in foodList:
             d = taxi(food, f)
-            ds.append(f,d)
-
-        ds.sort(key = lambda t:t[1])
-        return food + ds[0]
+            ds.append(f,d)  
+        return min(ds)[1]
     distanceLists.append(
         [getClosestPairs(food) for food in foodList])
     estimatedPaths =[]
