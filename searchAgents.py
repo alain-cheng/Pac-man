@@ -517,10 +517,8 @@ def foodHeuristic(state, problem):
         ds= []
         for f in foodList:
             d = taxi(food, f)
-            if(food not in map(lambda x:x[0],distanceLists)):
-                ds.append(f,d)
-            else:
-                return (food,f,d)
+            ds.append(f,d)
+
         ds.sort(key = lambda d:d[2])
         return food + ds[0]
     distanceLists.append(
