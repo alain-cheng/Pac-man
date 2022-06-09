@@ -519,7 +519,7 @@ def foodHeuristic(state, problem):
             d = taxi(food, f)
             ds.append(f,d)
 
-        ds.sort(key = lambda d:d[2])
+        ds.sort(key = lambda t:t[2])
         return food + ds[0]
     distanceLists.append(
         [getClosestPairs(food) for food in foodList])
