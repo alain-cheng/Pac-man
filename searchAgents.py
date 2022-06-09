@@ -290,10 +290,7 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         self.cornersVisited = set()     # Will store visited corners as a set
         self.cornersReached = 0         # Will be incremented everytime a new corner is reached
-
-        # Sort self.corners in a sequence that leads to the most optimal cost
-        # where index 0 will be the first Goal State and index 1 the second Goal State and so on...
-        self.cornersOrder = (self.corners[0],self.corners[1],self.corners[3],self.corners[2]) # brute forced
+        
 
     def getStartState(self):
         """
@@ -308,9 +305,20 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        if state == self.cornersOrder[self.cornersReached]:     # The current goal state is proportional to the num of cornersReached
-            self.cornersReached += 1
-            self.cornersVisited.add(state)
+        # A Goal state returns true if all corners have been reached
+        # True if cornersReached == 4
+        # Do not increment cornersReached when corner is in visitedCorners
+
+        # When isGoalState is called, checks if state is in one of the corners.
+        # When a corner has not been visited yet, add it to cornersVisited set-
+        # and increment the number of cornersReached.
+        if state in self.corners:
+            if state not in self.cornersVisited:
+                self.cornersReached += 1
+                self.cornersVisited.add(state)
+        
+        # A Goal state returns true when cornersReached is equal to 4
+        if self.cornersReached == 4:
             return True
         return False
 
@@ -367,12 +375,6 @@ class CornersProblem(search.SearchProblem):
         Returns the number of cornersReached
         """
         return self.cornersReached
-    
-    def getCornersVisited(self):
-        """
-        Returns a set of the cornersVisited
-        """
-        return self.cornersVisited
 
 
 def cornersHeuristic(state, problem):
@@ -491,17 +493,15 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
-    def getTaxiD(pos1, pos2):
-        x1,y1 = pos1
-        x2,y2 = pos2
-        distance = abs(x1 - x2) + abs(y1-y2)
-        return distance
 
-    foodList = foodGrid.asList()
+
+    """
+    foodList = []
+    foodList= foodGrid.asList()
     dotScores = []
-    dotScores.append    
-   
-    return  dotScores
+    dotScores.append   
+    """
+    return manhattanHeuristic(position, problem, foodGrid.asList())
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
