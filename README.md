@@ -9,5 +9,5 @@
   1. only edit search.py and searchAgents.py
   2. From search.py, fill up functions of DFS, BFS, UCS, and A* search algorithms (Use data structures provided in util.py file)
   3. From searchAgents.py, fill up missing code starting from line #266 and below
-  4. run on git bash terminal to auto check
+  4. run on terminal to auto check
   > $ python autograder.py
