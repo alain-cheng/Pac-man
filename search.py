@@ -118,39 +118,56 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    from searchAgents import CornersProblem                     # For implementing #5: CornersProblem
-    if type(problem) is CornersProblem:
-        cornersReached = problem.getCornersReached()
     visited = set()
     fringe = util.Queue()
     node = problem.getStartState()
     path = []
     fringe.push((node, path))
 
-    while not fringe.isEmpty():
-        node, path = fringe.pop()
+    from searchAgents import CornersProblem                     
+    if type(problem) is CornersProblem:
+        cornersReached = 0
+        while not fringe.isEmpty():
+            node, path = fringe.pop()
 
-        if node in visited:
-            continue
+            if node in visited:
+                continue
 
-        visited.add(node)
+            visited.add(node)
 
-        if problem.isGoalState(node):
-            return path
+            if problem.isGoalState(node):                           # Corner found
+                cornersReached += 1
+                visited.clear()                                     # Clear all visited nodes
+                visited.union(visited, problem.getCornersVisited()) # combine sets
+                fringe = util.Queue()                               # Reset queue
+                fringe.push((node, path))                           # Reinsert current corner to the fringe that was just cleared
+                
+                if cornersReached == 4:
+                    return path
+            
+            children = problem.getSuccessors(node)
+            for child, move, cost in children:
+                if child not in visited:
+                    fringe.push((child, path + [move]))
+        return list()
 
-        if type(problem) is CornersProblem:                     # #5: CornersProblem
-            if cornersReached != problem.getCornersReached():   # number of cornersReached has changed in the problem = found a corner
-                visited.clear()                                 # Clear all visited nodes
-                cornersReached = problem.getCornersReached()    # Match number of corners reached with the problem
-                visited.add(node)                               # Add current corner to visited set
-                fringe = util.Queue()                           # Reset queue
-                fringe.push((node, path))                       # Reinsert current corner to the fringe that was just cleared
+    else:
+        while not fringe.isEmpty():
+            node, path = fringe.pop()
 
-        children = problem.getSuccessors(node)
-        for child, move, cost in children:
-            if child not in visited:
-                fringe.push((child, path + [move]))
-    return list()
+            if node in visited:
+                continue
+
+            visited.add(node)
+
+            if problem.isGoalState(node):
+                return path
+
+            children = problem.getSuccessors(node)
+            for child, move, cost in children:
+                if child not in visited:
+                    fringe.push((child, path + [move]))
+        return list()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
