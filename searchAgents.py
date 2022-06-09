@@ -295,15 +295,6 @@ class CornersProblem(search.SearchProblem):
         # where index 0 will be the first Goal State and index 1 the second Goal State and so on...
         self.cornersOrder = (self.corners[0],self.corners[1],self.corners[3],self.corners[2]) # brute forced
 
-        """
-        Ideas to sort:
-            1. Brute Forced - try all possible corners combination and return the one with the smallest action cost
-        """
-        self.sequence1 = (self.corners[0],self.corners[1],self.corners[2],self.corners[3])
-        self.sequence2 = (self.corners[3],self.corners[0],self.corners[1],self.corners[2])
-        self.sequence3 = (self.corners[2],self.corners[3],self.corners[0],self.corners[1])
-        self.sequence4 = (self.corners[1],self.corners[2],self.corners[3],self.corners[0])
-
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
