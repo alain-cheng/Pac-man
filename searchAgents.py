@@ -498,7 +498,6 @@ def foodHeuristic(state, problem):
         xy2 = foodPos
         return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
-
     """
     foodList = []
     foodList= foodGrid.asList()
