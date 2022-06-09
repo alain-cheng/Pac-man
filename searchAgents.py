@@ -491,22 +491,23 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
-    def getScore(problem):
+    distances = []
+    listgrid = foodGrid.asList()
+
+    for food_coordinate in listgrid:
+
+        if (position, food_coordinate) in problem.heuristicInfo:
+            distances.append(problem.heuristicInfo[(position, food_coordinate)])
+        else:
+            value = mazeDistance(position, food_coordinate, problem.startingGameState)
+            problem.heuristicInfo[(position, food_coordinate)] = value
+            distances.append(value)
+
+    if not distances:
         return 0
-    """
-    def getDistance(p1,p2):
-      
-        xy1 = p1
-        xy2 = p2
-        return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-"""
-    """
-    foodList = []
-    foodList= foodGrid.asList()
-    dotScores = []
-    dotScores.append   
-    """
-    return euclideanHeuristic(position,problem) * getScore()
+    else:
+        dist = max(distances)
+    return dist
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
