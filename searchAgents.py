@@ -491,6 +491,7 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
+
     distances = []
     listgrid = foodGrid.asList()
 
@@ -508,6 +509,7 @@ def foodHeuristic(state, problem):
     else:
         dist = max(distances)
     return dist
+
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
