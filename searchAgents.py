@@ -34,6 +34,7 @@ description for details.
 Good luck and happy searching!
 """
 
+from turtle import distance
 from game import Directions
 from game import Agent
 from game import Actions
@@ -491,14 +492,30 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
-    def getScore(problem):
-        return problem.pellets.count()
+    taxi = util.manhattanDistance
+    foodList = foodGrid.asList()
+    distanceLists = []
+    def getClosestPairs(food):
+        ds= []
+        for f in foodList:
+            d = taxi(food, f)
+            if(food not in map(lambda x:x[0],distanceLists)):
+                ds.append(f,d)
+            else:
+                return (food,f,d)
+        ds.sort(key = lambda d:d[2])
+        return food + ds[0]
+    distanceLists.append(
+        [getClosestPairs(food) for food in foodList])
+    estimatedPaths =[]
+    for base in distanceLists:
+        minSide = min(taxi(position, base[0]), taxi(position, base[1]))
+        estimatedPaths.append((minSide + base[2]))
+    def getScore():
+        "TODO base score on k, k is acceptable max distance from a wall."
+        return min(estimatedPaths)
 
-    def getDistance(p1,p2):
-      
-        xy1 = p1
-        xy2 = p2
-        return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
 
 
 
@@ -508,7 +525,7 @@ def foodHeuristic(state, problem):
     dotScores = []
     dotScores.append   
     """
-    return getDistance(position,(0,0))* getScore()
+    return taxi(position,(0,0))* getScore()
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
