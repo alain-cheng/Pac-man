@@ -223,22 +223,51 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     path = []
     fringe.push((node, path), 0)
 
-    while not fringe.isEmpty():
-        node, path = fringe.pop()
+    from searchAgents import CornersProblem                     
+    if type(problem) is CornersProblem:                             # exclusive to CornersProblem
+        cornersReached = 0
+        while not fringe.isEmpty():
+            node, path = fringe.pop()
 
-        if node in visited:
-            continue
+            if node in visited:
+                continue
 
-        visited.add(node)
+            visited.add(node)
+            
+            if problem.isGoalState(node):                           # Corner found
+                cornersReached += 1
+                visited.clear()                                     # Clear all visited nodes
+                visited.union(visited, problem.getCornersVisited()) # combine sets
+                fringe = util.PriorityQueue()                       # Reset queue
+                fringe.push((child, path + [move]), nHeuristic)                           
 
-        if problem.isGoalState(node):
-            return path
+                if cornersReached == 4:                             # all 4 corners are reached
+                    return path
 
-        children = problem.getSuccessors(node)
-        for child, move, stepCost in children:
-            if child not in visited:
-                nHeuristic = stepCost + problem.getCostOfActions(path) + heuristic(child, problem = problem)
-                fringe.push((child, path + [move]), nHeuristic)
+            children = problem.getSuccessors(node)
+            for child, move, stepCost in children:
+                if child not in visited:
+                    nHeuristic = stepCost + problem.getCostOfActions(path) + heuristic(child, problem = problem)
+                    fringe.push((child, path + [move]), nHeuristic)
+        return list()
+
+    else:                                                           # For general problems
+        while not fringe.isEmpty():
+            node, path = fringe.pop()
+
+            if node in visited:
+                continue
+
+            visited.add(node)
+
+            if problem.isGoalState(node):
+                return path
+
+            children = problem.getSuccessors(node)
+            for child, move, stepCost in children:
+                if child not in visited:
+                    nHeuristic = stepCost + problem.getCostOfActions(path) + heuristic(child, problem = problem)
+                    fringe.push((child, path + [move]), nHeuristic)
 
 
 # Abbreviations

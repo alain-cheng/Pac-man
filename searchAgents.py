@@ -34,7 +34,6 @@ description for details.
 Good luck and happy searching!
 """
 
-from turtle import distance
 from game import Directions
 from game import Agent
 from game import Actions
@@ -506,10 +505,6 @@ def foodHeuristic(state, problem):
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
     """
-    TODO find nearest pellet of among the directions pacman can move around
-                    should it iterate through all active pellets?
-                    
-    """
     taxi = util.manhattanDistance
     foodList = foodGrid.asList()
     distanceLists = []
@@ -528,9 +523,10 @@ def foodHeuristic(state, problem):
     def getScore():
         "TODO base score on k, k is acceptable max distance from a wall."
     return min(estimatedPaths)
+    """
+    distances = []
+    listgrid = foodGrid.asList()
 
-
-"""
     for food_coordinate in listgrid:
 
         if (position, food_coordinate) in problem.heuristicInfo:
@@ -544,7 +540,7 @@ def foodHeuristic(state, problem):
         return 0
     else:
         dist = max(distances)
-    return dist"""
+    return dist
 
 
 class ClosestDotSearchAgent(SearchAgent):
