@@ -393,7 +393,25 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    remainingCorners = []
+    traversedCorners = set()
+
+    #Appends to find the remaining non traversed corners
+    for corner in corners:
+        if corner not in traversedCorners:
+            remainingCorners.append(corner) 
+            traversedCorners.add(corner)
+    
+    location = state
+    currLocation = location
+    cost = 0
+    while remainingCorners:
+        #manhattandistance(currLocation, corner) // (x1,y1) (x2,y2) && |x1-x2| + |y1-y2|
+        heuristic, corner = min([(abs(currLocation[0] - corner[1]) + abs(currLocation[1] - corner[0]), corner) for corner in remainingCorners])
+        remainingCorners.remove(corner)
+        currLocation = corner
+        cost += heuristic
+    return cost
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -517,8 +535,22 @@ def foodHeuristic(state, problem):
 
 
 
+    for food_coordinate in listgrid:
 
+        if (position, food_coordinate) in problem.heuristicInfo:
+            distances.append(problem.heuristicInfo[(position, food_coordinate)])
+        else:
+            value = mazeDistance(position, food_coordinate, problem.startingGameState)
+            problem.heuristicInfo[(position, food_coordinate)] = value
+            distances.append(value)
 
+    if not distances:
+        return 0
+    else:
+        dist = max(distances)
+    return dist
+
+<<<<<<< HEAD
     """
     foodList = []
     foodList= foodGrid.asList()
@@ -526,6 +558,8 @@ def foodHeuristic(state, problem):
     dotScores.append   
     """
     return taxi(position,(0,0))* getScore()
+=======
+>>>>>>> 2e3a69b0f1d097110c25cdc6c2060d7a2e46e8e1
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
