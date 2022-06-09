@@ -491,20 +491,22 @@ def foodHeuristic(state, problem):
                     should it iterate through all active pellets?
                     
     """
-
-    def hotdog(foodPos):
-        "because manhattan food"
-        xy1 = position
-        xy2 = foodPos
+    def getScore(problem):
+        return 0
+    """
+    def getDistance(p1,p2):
+      
+        xy1 = p1
+        xy2 = p2
         return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-
+"""
     """
     foodList = []
     foodList= foodGrid.asList()
     dotScores = []
     dotScores.append   
     """
-    return hotdog()
+    return euclideanHeuristic(position,problem) * getScore()
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
