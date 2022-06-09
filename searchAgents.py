@@ -500,9 +500,10 @@ def foodHeuristic(state, problem):
         return distance
 
     foodList = foodGrid.asList()
-    foodList.sort()
+    dotScores = []
+    dotScores.append    
    
-    return  getTaxiD(position,foodList[0])
+    return  dotScores
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
