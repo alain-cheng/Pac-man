@@ -15,7 +15,7 @@
 from util import manhattanDistance
 from game import Directions
 import random, util
-
+import sys
 from game import Agent
 
 class ReflexAgent(Agent):
@@ -66,14 +66,40 @@ class ReflexAgent(Agent):
         Print out these variables to see what you're getting, then combine them
         to create a masterful evaluation function.
         """
+        MAX = (0-1)*sys.maxInt
         # Useful information you can extract from a GameState (pacman.py)
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         newPos = successorGameState.getPacmanPosition()
         newFood = successorGameState.getFood()
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
-
-        "*** YOUR CODE HERE ***"
+       
+            
+        
+                
+        foods = newFood.asList
+        def dist(dest):util.manhattanDistance(newPos, dest)
+        ghostDists = []
+        foodDists =[]
+        for ghost in newGhostStates:
+            pos = ghost.getPosition()
+            ghostDist = dist(pos)
+            ghostDists.append(ghostDist)
+                        
+        for food in foods:
+                pos = food.getPosition()
+                foodDist = dist(pos)
+                foodDists.append(foodDist)
+        death = newPos ==ghostDist
+        if(len(foods) > 0):
+            successorGameState.getScore -= min(foodDists)
+        if(death):
+            return MAX
+        elif(len(ghostDists)>0):
+            successorGameState.getScore += max(foodDists)
+        """
+        TODO IMPLEMENT WITH SCARED TIMES TOMORROW. OTHERWISE, DONE!   
+        """ 
         return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState):
