@@ -66,7 +66,7 @@ class ReflexAgent(Agent):
         Print out these variables to see what you're getting, then combine them
         to create a masterful evaluation function.
         """
-        MAX =-999999
+        MAX =-99999
         # Useful information you can extract from a GameState (pacman.py)
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         newPos = successorGameState.getPacmanPosition()
@@ -74,6 +74,9 @@ class ReflexAgent(Agent):
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
        
+            
+        
+                
         foods = newFood.asList
         def dist(dest):util.manhattanDistance(newPos, dest)
         ghostDists = []
@@ -83,13 +86,13 @@ class ReflexAgent(Agent):
             ghostDist = dist(pos)
             ghostDists.append(ghostDist)
                         
-        for food in foods:
+            """  for food in foods:
                 pos = food.getPosition()
                 foodDist = dist(pos)
-                foodDists.append(foodDist)
+                foodDists.append(foodDist)"""
         death = newPos ==ghostDist
-        if(len(foods) > 0):
-            successorGameState.getScore -= min(foodDists)
+        """if(len(foods) > 0):
+            successorGameState.getScore -= min(foodDists)"""
         if(death):
             return MAX
         elif(len(ghostDists)>0):
@@ -170,27 +173,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-
-        # a recursive internal minimax function with pruning
-        """TODO its unfinished yet, quite unsure what to return, probably the score from the self.evaluationFunction ig"""
-        def minimax(position, depth, alpha, beta, agents):
-            print('position: ' + str(position))
-            print('depth: ' + str(depth))
-            print('alpha: ' + str(alpha))
-            print('beta: ' + str(beta))
-            print('agent: ' + str(agents))
-
-            # if the depth is 0 or game is over
-            if depth == 0 or gameState.isLose() or gameState.isWin():
-                return self.evaluationFunction(gameState)
-
-        # initial call
-        print('gameState:\n' + str(gameState))
-        print('future gameState:\n' + str(gameState.generatePacmanSuccessor('East')))
-        minimax(gameState.getPacmanPosition(), self.depth, -abs(sys.maxsize), sys.maxsize, gameState.getNumAgents()) 
-        
-        return []
-        # util.raiseNotDefined()
+        util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
