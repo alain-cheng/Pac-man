@@ -45,6 +45,7 @@ class ReflexAgent(Agent):
         scores = [self.evaluationFunction(gameState, action) for action in legalMoves]
         bestScore = max(scores)
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
+        print(bestScore)
         chosenIndex = random.choice(bestIndices) # Pick randomly among the best
 
         "Add more of your code here if you want to"
@@ -73,8 +74,8 @@ class ReflexAgent(Agent):
         newFood = successorGameState.getFood()
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
-       
-        score = 0
+
+        score = successorGameState.getScore()
         
         evalDict = {
       
@@ -82,20 +83,20 @@ class ReflexAgent(Agent):
             
         }
         foods = newFood.asList()
-        def dist(dest):util.manhattanDistance(newPos, dest)
-        if max(newScaredTimes) > 0:
-            foods
+
+        
+      
         ghostDists = []
         foodDists =[]
         for ghost in newGhostStates:
             pos = ghost.getPosition()
-            ghostDist = dist(pos)
+            ghostDist = util.manhattanDistance(newPos, pos)
             ghostDists.append(ghostDist)
                         
-            for food in foods:
-                pos = food
-                foodDist = dist(pos)
-                foodDists.append(foodDist)
+        for food in foods:
+            pos = food
+            foodDist = util.manhattanDistance(newPos, pos)
+            foodDists.append(foodDist)
         
         """
         if(len(foods) > 0):
@@ -103,14 +104,26 @@ class ReflexAgent(Agent):
             """
 
         if(0 in ghostDists):
+            print("die")
             return MAX
-        elif(len(ghostDists)>0):
-            s = ghostDists
-            print(s)
+        if min(newScaredTimes) > 0:
+            score += min(ghostDists)
+            score -= min(foodDists)
+            
+        else:
+            ghostDist = min(ghostDists)
+            foodDist = min(foodDists)
+            score = min((ghostDist,foodDist))
+   
+  
+              
+            
+            
+            
         """
         TODO IMPLEMENT WITH SCARED TIMES TOMORROW. OTHERWISE, DONE!   
         """ 
-        return successorGameState.getScore()
+        return score
 
 def scoreEvaluationFunction(currentGameState):
     """
