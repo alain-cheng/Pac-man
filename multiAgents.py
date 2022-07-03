@@ -74,7 +74,7 @@ class ReflexAgent(Agent):
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
        
-            
+        score = 0
         
         evalDict = {
       
@@ -93,7 +93,7 @@ class ReflexAgent(Agent):
             ghostDists.append(ghostDist)
                         
             for food in foods:
-                pos = food.getPosition()
+                pos = food
                 foodDist = dist(pos)
                 foodDists.append(foodDist)
         
@@ -105,7 +105,8 @@ class ReflexAgent(Agent):
         if(0 in ghostDists):
             return MAX
         elif(len(ghostDists)>0):
-            successorGameState.getScore += max(foodDists)
+            s = ghostDists
+            print(s)
         """
         TODO IMPLEMENT WITH SCARED TIMES TOMORROW. OTHERWISE, DONE!   
         """ 
