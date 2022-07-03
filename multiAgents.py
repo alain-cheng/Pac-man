@@ -170,7 +170,27 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        # a recursive internal minimax function with pruning
+        """TODO its unfinished yet, quite unsure what to return, probably the score from the self.evaluationFunction ig"""
+        def minimax(position, depth, alpha, beta, agents):
+            print('position: ' + str(position))
+            print('depth: ' + str(depth))
+            print('alpha: ' + str(alpha))
+            print('beta: ' + str(beta))
+            print('agent: ' + str(agents))
+
+            # if the depth is 0 or game is over
+            if depth == 0 or gameState.isLose() or gameState.isWin():
+                return self.evaluationFunction(gameState)
+
+        # initial call
+        print('gameState:\n' + str(gameState))
+        print('future gameState:\n' + str(gameState.generatePacmanSuccessor('East')))
+        minimax(gameState.getPacmanPosition(), self.depth, -abs(sys.maxsize), sys.maxsize, gameState.getNumAgents()) 
+        
+        return []
+        # util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
