@@ -201,26 +201,51 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
         "*** YOUR CODE HERE ***"
 
-        # a recursive internal minimax function with pruning
-        """TODO its unfinished yet"""
-        def minimax(position, depth, alpha, beta, agents):
-            print('position: ' + str(position))
-            print('depth: ' + str(depth))
-            print('alpha: ' + str(alpha))
-            print('beta: ' + str(beta))
-            print('agent: ' + str(agents))
-
-            # if the depth is 0 or game is over
-            if depth == 0 or gameState.isLose() or gameState.isWin():
-                return self.evaluationFunction(gameState)
-
         # initial call
         print('gameState:\n' + str(gameState))
         print('future gameState:\n' + str(gameState.generatePacmanSuccessor('East')))
-        minimax(gameState.getPacmanPosition(), self.depth, -abs(sys.maxsize), sys.maxsize, gameState.getNumAgents()) 
+
+        self.minimax(gameState, self.depth, -abs(sys.maxsize), sys.maxsize, gameState.getNumAgents()) 
         
         return []
         # util.raiseNotDefined()
+    
+    # a recursive minimax function with pruning
+    """TODO its unfinished yet"""
+    def minimax(self, futureState, depth, alpha, beta, agents):
+        print('position: ' + str(futureState.getPacmanPosition()))
+        print('depth: ' + str(depth))
+        print('alpha: ' + str(alpha))
+        print('beta: ' + str(beta))
+        print('agent: ' + str(agents))
+
+        # if the depth is 0 or game is over
+        if depth == 0 or futureState.isLose() or futureState.isWin():
+            return self.evaluationFunction(futureState)
+
+        for agent in range(agents):
+            # if agent is pacman, use maximizer
+            if agent == 0:
+                maxEval = -abs(sys.maxsize)
+                for action in futureState.getLegalActions(agent):
+                    eval = self.minimax(futureState.generateSuccessor(agent, action), depth-1, alpha, beta, agents)
+                    maxEval = max(maxEval, eval)
+                    alpha = max(alpha, eval)
+                    print('alpha: ' + str(alpha)) # debug
+                    if beta <= alpha:
+                        break
+                return maxEval
+            # else use minimizer
+            else:
+                minEval = sys.maxsize
+                for action in futureState.getLegalActions(agent):
+                    eval = self.minimax(futureState.generateSuccessor(agent, action), depth-1, alpha, beta, agents)
+                    minEval = min(minEval, eval)
+                    beta = min(beta, eval)
+                    print('beta: ' + str(beta)) # debug
+                    if beta <= alpha:
+                        break
+                return minEval
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
