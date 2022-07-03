@@ -77,7 +77,7 @@ class ReflexAgent(Agent):
             
         
                 
-        foods = newFood.asList
+        foods = newFood.asList()
         def dist(dest):util.manhattanDistance(newPos, dest)
         ghostDists = []
         foodDists =[]
@@ -86,14 +86,16 @@ class ReflexAgent(Agent):
             ghostDist = dist(pos)
             ghostDists.append(ghostDist)
                         
-            """  for food in foods:
+            for food in foods:
                 pos = food.getPosition()
                 foodDist = dist(pos)
-                foodDists.append(foodDist)"""
-        death = newPos ==ghostDist
-        """if(len(foods) > 0):
-            successorGameState.getScore -= min(foodDists)"""
-        if(death):
+                foodDists.append(foodDist)
+        
+        """
+        if(len(foods) > 0):
+            successorGameState.getScore -= min(foodDists)
+            """
+        if(0 in ghostDists):
             return MAX
         elif(len(ghostDists)>0):
             successorGameState.getScore += max(foodDists)
