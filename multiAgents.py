@@ -105,7 +105,7 @@ class ReflexAgent(Agent):
 
 
         if min(newScaredTimes) > 0:
-            score -= min(ghostDists)
+            score -= 2*min(ghostDists)
             score += min(foodDists) 
             
 
@@ -116,7 +116,7 @@ class ReflexAgent(Agent):
             else:
                 ghostDist = min(ghostDists)
             foodDist = min(foodDists)
-            score = max(foodDist,ghostDist)
+            score = ghostDist - foodDist
 
    
   
