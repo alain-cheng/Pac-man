@@ -68,13 +68,16 @@ class ReflexAgent(Agent):
         to create a masterful evaluation function.
         """
         MAX =-99999
+        powerup = -MAX
+        toCap = 10
+        
         # Useful information you can extract from a GameState (pacman.py)
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         newPos = successorGameState.getPacmanPosition()
         newFood = successorGameState.getFood()
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
-
+        capsules = currentGameState.getCapsules()
         score = successorGameState.getScore()
         
         evalDict = {
@@ -84,14 +87,21 @@ class ReflexAgent(Agent):
         }
         foods = newFood.asList()
 
-        
-      
+        if(len(capsules)> 0):
+            for cap in capsules:
+                distCap = util.manhattanDistance(newPos,cap)
+                if(distCap == 0):
+                    score = powerup
+                else:
+                    score -= distCap*40
         ghostDists = []
         foodDists =[]
         for ghost in newGhostStates:
             pos = ghost.getPosition()
             ghostDist = util.manhattanDistance(newPos, pos)
             ghostDists.append(ghostDist)
+            if ghost.scaredTimer > 0:
+                score -= ghostDist
                         
         for food in foods:
             pos = food
@@ -104,19 +114,19 @@ class ReflexAgent(Agent):
             """
 
 
-        if min(newScaredTimes) > 0:
-            score -= 2*min(ghostDists)
-            score += min(foodDists) 
+       
+            
             
 
             
+        
+        if 0 in  ghostDists:
+            ghostDists = MAX
         else:
-            if 0 in  ghostDists:
-                ghostDists = MAX
-            else:
-                ghostDist = min(ghostDists)
-            foodDist = min(foodDists)
-            score = ghostDist - foodDist
+            ghostDist = min(ghostDists)
+        foodDist = min(foodDists)
+        score += ghostDist/len(foods)
+        score -= foodDist
 
    
   
