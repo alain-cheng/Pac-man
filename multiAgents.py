@@ -76,9 +76,15 @@ class ReflexAgent(Agent):
        
             
         
-                
+        evalDict = {
+      
+            
+            
+        }
         foods = newFood.asList()
         def dist(dest):util.manhattanDistance(newPos, dest)
+        if max(newScaredTimes) > 0:
+            foods
         ghostDists = []
         foodDists =[]
         for ghost in newGhostStates:
@@ -95,6 +101,7 @@ class ReflexAgent(Agent):
         if(len(foods) > 0):
             successorGameState.getScore -= min(foodDists)
             """
+
         if(0 in ghostDists):
             return MAX
         elif(len(ghostDists)>0):
