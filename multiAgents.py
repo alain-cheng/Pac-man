@@ -103,17 +103,21 @@ class ReflexAgent(Agent):
             successorGameState.getScore -= min(foodDists)
             """
 
-        if(0 in ghostDists):
-            print("die")
-            return MAX
+
         if min(newScaredTimes) > 0:
-            score += min(ghostDists)
-            score -= min(foodDists)
+            score -= min(ghostDists)
+            score += min(foodDists) 
+            
+
             
         else:
-            ghostDist = min(ghostDists)
+            if 0 in  ghostDists:
+                ghostDists = MAX
+            else:
+                ghostDist = min(ghostDists)
             foodDist = min(foodDists)
-            score = min((ghostDist,foodDist))
+            score = max(foodDist,ghostDist)
+
    
   
               
