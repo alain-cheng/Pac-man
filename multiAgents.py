@@ -66,7 +66,7 @@ class ReflexAgent(Agent):
         Print out these variables to see what you're getting, then combine them
         to create a masterful evaluation function.
         """
-        MAX = (0-1)*sys.maxInt
+        MAX =-999999
         # Useful information you can extract from a GameState (pacman.py)
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         newPos = successorGameState.getPacmanPosition()
@@ -74,9 +74,6 @@ class ReflexAgent(Agent):
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
        
-            
-        
-                
         foods = newFood.asList
         def dist(dest):util.manhattanDistance(newPos, dest)
         ghostDists = []
