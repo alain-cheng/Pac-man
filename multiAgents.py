@@ -175,7 +175,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
 
         # a recursive internal minimax function with pruning
-        """TODO its unfinished yet"""
+        """TODO its unfinished yet, quite unsure what to return, probably the score from the self.evaluationFunction ig"""
         def minimax(position, depth, alpha, beta, agents):
             print('position: ' + str(position))
             print('depth: ' + str(depth))
