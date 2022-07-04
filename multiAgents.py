@@ -210,35 +210,46 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-        #print('ghost state: ' + str(gameState.getGhostState(1)))
-        print('starting gameState:\n' + str(gameState))
+        # legalMoves = gameState.getLegalActions()
+        # print(legalMoves)
 
         # initial call
-        value = self.minimax(gameState, self.depth, -abs(sys.maxsize), sys.maxsize, 0) 
-        print('\nvalue: ' + str(value))
-        return []
+        bestMove = ''
+        alpha = -abs(sys.maxsize)
+        beta = sys.maxsize
+        for action in gameState.getLegalActions(self.index):
+            maxEval = -abs(sys.maxsize)
+            bestValue = self.minimax(gameState.generateSuccessor(self.index, action), self.depth-1, alpha, beta, self.index)
+            if bestValue > maxEval:
+                maxEval = bestValue
+                bestMove = action
+            alpha = max(alpha, bestValue)
+        return bestMove
     
     """
     a recursive minimax function with pruning capabilities
+    Returns the best score that can be achieved.
 
     TODO its unfinished yet
     """
     def minimax(self, futureState, depth, alpha, beta, agent):
-        print(futureState)
-        print('position: ' + str(futureState.getPacmanPosition()))
-        print('depth: ' + str(depth))
-        print('alpha: ' + str(alpha))
-        print('beta: ' + str(beta))
-        print('agent: ' + str(agent))
+        if agent == self.index and depth > 0:
+            print(futureState)
+            print('position: ' + str(futureState.getPacmanPosition()))
+            print('depth: ' + str(depth))
+            print('alpha: ' + str(alpha))
+            print('beta: ' + str(beta))
+            print('agent: ' + str(agent))
 
         # if the depth is 0 or game is over
         if depth == 0 or futureState.isLose() or futureState.isWin():
             return self.evaluationFunction(futureState)
 
+        # if the agent being evaluated is the last agent, decrement the depth
         if agent == (futureState.getNumAgents() - 1):
             depth = depth - 1
         
-        if agent == 0:
+        if agent == 0:  # agent 0 is Pacman, which uses the maximizer
             maxEval = -abs(sys.maxsize)
             for action in futureState.getLegalActions(agent):
                 print('action 0: ' + action)
@@ -249,11 +260,11 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
                 if beta <= alpha:
                     break
             return maxEval
-        else:
+        else:           # agent > 0 are Ghosts, uses the minimizer
             minEval = sys.maxsize
             for action in futureState.getLegalActions(agent):
-                print('action %d: %s' % (agent, action))
-                print('\n')
+                # print('action %d: %s' % (agent, action))
+                # print('\n')
                 eval = self.minimax(futureState.generateSuccessor(agent, action), depth, alpha, beta, ((agent+1) % futureState.getNumAgents()))
                 minEval = min(minEval, eval)
                 beta = min(beta, eval)
