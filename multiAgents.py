@@ -242,27 +242,73 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-        # legalMoves = gameState.getLegalActions()
-        # print(legalMoves)
+        def maxValue(gameState, depth, alpha, beta):
+            # debugging
+            # print(gameState)
+            # print('position: ' + str(gameState.getPacmanPosition()))
+            # print('depth: ' + str(depth))
+            # print('alpha: ' + str(alpha))
+            # print('beta: ' + str(beta))
+
+            if depth == 0 or gameState.isLose() or gameState.isWin():
+                return self.evaluationFunction(gameState), 'Stop'
+
+            maxEval = -abs(sys.maxsize)
+            bestMove = 'Stop'
+
+            for action in gameState.getLegalActions(0):
+                eval = minValue(gameState.generateSuccessor(0, action), depth, alpha, beta, 1)
+                if eval > maxEval:
+                    bestMove = action
+                    maxEval = eval
+                    alpha = eval
+                # pruning
+                if eval > beta:
+                    return eval, bestMove
+            return maxEval, bestMove
+        
+        def minValue(gameState, depth, alpha, beta, agent):
+            if depth == 0 or gameState.isLose() or gameState.isWin():
+                return self.evaluationFunction(gameState)
+            
+            minEval = sys.maxsize
+
+            # if agent is the last agent
+            if agent == gameState.getNumAgents() - 1:
+                for action in gameState.getLegalActions(agent):
+                    eval = maxValue(gameState.generateSuccessor(agent, action), depth-1, alpha, beta)[0]
+                    if eval < minEval:
+                        minEval = eval
+                        beta = eval
+                    #pruning
+                    if beta <= alpha:
+                        break
+                return eval
+            else:
+                for action in gameState.getLegalActions(agent):
+                    eval = minValue(gameState.generateSuccessor(agent, action), depth, alpha, beta, agent+1)
+                    if eval < minEval:
+                        minEval = eval
+                        beta = eval
+                    if eval < alpha:
+                        return eval
+                return eval
+
+        return maxValue(gameState, self.depth, -abs(sys.maxsize), sys.maxsize)[1]
 
         # initial call
-        bestMove = ''
-        alpha = -abs(sys.maxsize)
-        beta = sys.maxsize
-        for action in gameState.getLegalActions(self.index):
-            maxEval = -abs(sys.maxsize)
-            bestValue = self.minimax(gameState.generateSuccessor(self.index, action), self.depth-1, alpha, beta, self.index)
-            if bestValue > maxEval:
-                maxEval = bestValue
-                bestMove = action
-            alpha = max(alpha, bestValue)
-        return bestMove
+        # bestMove = ''
+        # alpha = -abs(sys.maxsize)
+        # beta = sys.maxsize
+        # for action in gameState.getLegalActions(self.index):
+        #     maxEval = -abs(sys.maxsize)
+        #     bestValue = self.minimax(gameState.generateSuccessor(self.index, action), self.depth-1, alpha, beta, self.index)
+        #     if bestValue > maxEval:
+        #         maxEval = bestValue
+        #         bestMove = action
+        #     alpha = max(alpha, bestValue)
+        # return bestMove
     
-    """
-    a recursive minimax function with pruning capabilities
-    Returns the best score that can be achieved.
-
-    TODO its unfinished yet
     """
     def minimax(self, futureState, depth, alpha, beta, agent):
         if agent == self.index and depth > 0:
@@ -303,6 +349,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
                 if beta <= alpha:
                     break
             return minEval
+    """
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
