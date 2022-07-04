@@ -250,51 +250,54 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             # print('alpha: ' + str(alpha))
             # print('beta: ' + str(beta))
 
-            if depth == 0 or gameState.isLose() or gameState.isWin():
+            if depth == self.depth or gameState.isWin() or gameState.isLose():
                 return self.evaluationFunction(gameState), 'Stop'
 
-            maxEval = -abs(sys.maxsize)
+            maxEval = float('-inf')
             bestMove = 'Stop'
 
-            for action in gameState.getLegalActions(0):
-                eval = minValue(gameState.generateSuccessor(0, action), depth, alpha, beta, 1)
+            for action in gameState.getLegalActions():
+                # eval = minValue(gameState.generateSuccessor(0, action), depth, alpha, beta, 1)
+                eval = max(maxEval, minValue(gameState.generateSuccessor(0, action), depth, alpha, beta, 1))
                 if eval > maxEval:
+                    #print('Best action is to ' + str(action))
                     bestMove = action
                     maxEval = eval
-                    alpha = eval
+                alpha = max(alpha, maxEval)
                 # pruning
                 if eval > beta:
                     return eval, bestMove
             return maxEval, bestMove
         
         def minValue(gameState, depth, alpha, beta, agent):
-            if depth == 0 or gameState.isLose() or gameState.isWin():
+            if depth == self.depth or gameState.isWin() or gameState.isLose():
                 return self.evaluationFunction(gameState)
             
-            minEval = sys.maxsize
+            minEval = float('inf')
 
             # if agent is the last agent
             if agent == gameState.getNumAgents() - 1:
                 for action in gameState.getLegalActions(agent):
-                    eval = maxValue(gameState.generateSuccessor(agent, action), depth-1, alpha, beta)[0]
+                    eval = min(minEval, maxValue(gameState.generateSuccessor(agent, action), depth + 1, alpha, beta)[0])
                     if eval < minEval:
                         minEval = eval
-                        beta = eval
+                    beta = min(beta, minEval)
                     #pruning
-                    if beta <= alpha:
-                        break
+                    if eval < alpha:
+                        return eval
                 return eval
             else:
                 for action in gameState.getLegalActions(agent):
                     eval = minValue(gameState.generateSuccessor(agent, action), depth, alpha, beta, agent+1)
                     if eval < minEval:
                         minEval = eval
-                        beta = eval
+                    beta = min(beta, minEval)
+                    #pruning
                     if eval < alpha:
                         return eval
                 return eval
 
-        return maxValue(gameState, self.depth, -abs(sys.maxsize), sys.maxsize)[1]
+        return maxValue(gameState, 0, float('-inf'), float('inf'))[1]
 
         # initial call
         # bestMove = ''
