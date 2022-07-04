@@ -80,12 +80,12 @@ class ReflexAgent(Agent):
         capsules = currentGameState.getCapsules()
         score = successorGameState.getScore()
         
-        evalDict = {
-      
-            
-            
+        evalDict = {  
         }
+
         foods = newFood.asList()
+
+
 
         if(len(capsules)> 0):
             for cap in capsules:
@@ -102,24 +102,22 @@ class ReflexAgent(Agent):
             ghostDists.append(ghostDist)
             if ghost.scaredTimer > 0:
                 score -= ghostDist
-                        
+
+        if action == 'Stop':
+            score -= 100
+
         for food in foods:
             pos = food
             foodDist = util.manhattanDistance(newPos, pos)
             foodDists.append(foodDist)
         
+        if foods == 0:
+            return 99999
         """
         if(len(foods) > 0):
             successorGameState.getScore -= min(foodDists)
             """
 
-
-       
-            
-            
-
-            
-        
         if 0 in  ghostDists:
             ghostDists = MAX
         else:
@@ -128,10 +126,6 @@ class ReflexAgent(Agent):
         score += ghostDist/len(foods)
         score -= foodDist
 
-   
-  
-              
-            
             
             
         """
