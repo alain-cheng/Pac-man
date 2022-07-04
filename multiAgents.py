@@ -122,9 +122,10 @@ class ReflexAgent(Agent):
             ghostDists = MAX
         else:
             ghostDist = min(ghostDists)
-        foodDist = min(foodDists)
-        score += ghostDist/len(foods)
-        score -= foodDist
+        if len(foods) != 0:
+            foodDist = min(foodDists)
+            score += ghostDist/len(foods)
+            score -= foodDist
 
             
             
